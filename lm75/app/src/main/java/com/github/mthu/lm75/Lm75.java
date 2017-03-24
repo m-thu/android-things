@@ -9,6 +9,7 @@ import com.google.android.things.pio.PeripheralManagerService;
 
 import java.io.IOException;
 
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class Lm75 implements AutoCloseable {
     private final static String TAG = Lm75.class.getSimpleName();
 

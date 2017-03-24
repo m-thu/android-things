@@ -13,6 +13,7 @@ import com.google.android.things.userdriver.UserSensorReading;
 import java.io.IOException;
 import java.util.UUID;
 
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class Lm75Driver extends UserSensorDriver implements AutoCloseable {
     private final static String TAG = Lm75Driver.class.getSimpleName();
 
