@@ -14,3 +14,4 @@ android:
 script:
    - bash template/gradlew build
    - bash lm75/gradlew build
+   - bash hmc5883l/gradlew build
