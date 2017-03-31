@@ -11,7 +11,13 @@ android:
     - extra-google-m2repository
     - extra-android-m2repository
 
+before_install:
+   # Clone prebuilt Android NDK for native apps
+   - git clone https://github.com/urho3d/android-ndk.git $HOME/android-ndk-root
+   - export ANDROID_NDK_HOME=$HOME/android-ndk-root
+
 script:
    - bash template/gradlew build
    - bash lm75/gradlew build
    - bash hmc5883l/gradlew build
+   - bash template-native/gradlew build

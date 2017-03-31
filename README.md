@@ -2,6 +2,7 @@ Android Things
 ==============
 
 * [template](template/): Empty template project
+* [template-native](template-native/): Empty template project for native apps
 * [lm75](lm75/): User-space driver for LM75 temperature sensor (I2C)
 * [hmc5883l](hmc5883l/): Class and test app for interfacing with HMC5883L 3-axis digital compass (I2C)
 
