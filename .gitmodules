@@ -1,0 +1,3 @@
+[submodule "template-native/libandroidthings"]
+	path = template-native/libandroidthings
+	url = https://github.com/androidthings/native-libandroidthings
