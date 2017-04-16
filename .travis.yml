@@ -22,3 +22,4 @@ script:
    - bash hmc5883l/gradlew build
    - bash template-native/gradlew build
    - bash lm75-native/gradlew build
+   - bash hc05/gradlew build
