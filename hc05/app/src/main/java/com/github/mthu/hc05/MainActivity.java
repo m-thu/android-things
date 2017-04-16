@@ -14,15 +14,19 @@ import android.util.Log;
 public class MainActivity extends Activity {
     private final static String TAG = MainActivity.class.getSimpleName();
 
+    // HC-05 Serial-to-Bluetooth adapter parameters
+    private final static String HC05_NAME = "HC-05";
+    private final static String HC05_MAC  = "XX:XX:XX:XX:XX:XX";
+    private final static byte[] HC05_PIN  = {1, 2, 3, 4};
+
     private BluetoothAdapter mBluetoothAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
         // Get Bluetooth adapter
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null)
             throw new RuntimeException("No default Bluetooth adapter!");
 
@@ -39,6 +43,9 @@ public class MainActivity extends Activity {
                 Log.d(TAG, "Bluetooth discovery has started!");
             }
         }, new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_STARTED));
+        // Register broadcast receiver for bond state changes
+        registerReceiver(mBondStateChangeBroadcastReceiver,
+                new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED));
 
         if (mBluetoothAdapter.isEnabled()) {
             mBluetoothAdapter.startDiscovery();
@@ -52,8 +59,15 @@ public class MainActivity extends Activity {
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(BluetoothDevice.ACTION_FOUND)) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                Log.d(TAG, "New Bluetooth device found: "+device.getName()+
-                        " ("+device.getAddress()+")");
+                Log.d(TAG, "New Bluetooth device found: " + device.getName() +
+                        " (" + device.getAddress() + ")");
+
+                if ((device.getName() != null && device.getName().equals(HC05_NAME))
+                        || device.getAddress().equals(HC05_MAC)) {
+                    mBluetoothAdapter.cancelDiscovery();
+                    device.setPin(HC05_PIN);
+                    device.createBond();
+                }
             }
         }
     };
@@ -63,6 +77,29 @@ public class MainActivity extends Activity {
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(BluetoothAdapter.ACTION_STATE_CHANGED))
                 mBluetoothAdapter.startDiscovery();
+        }
+    };
+
+    private final BroadcastReceiver mBondStateChangeBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(BluetoothDevice.ACTION_BOND_STATE_CHANGED)) {
+                int bondState = intent.getIntExtra(BluetoothDevice.EXTRA_BOND_STATE, -1);
+
+                switch (bondState) {
+                    case BluetoothDevice.BOND_NONE:
+                        Log.d(TAG, "Bluetooth device not paired!");
+                        break;
+
+                    case BluetoothDevice.BOND_BONDING:
+                        Log.d(TAG, "Bluetooth device pairing!");
+                        break;
+
+                    case BluetoothDevice.BOND_BONDED:
+                        Log.d(TAG, "Bluetooth device paired!");
+                        break;
+                }
+            }
         }
     };
 
