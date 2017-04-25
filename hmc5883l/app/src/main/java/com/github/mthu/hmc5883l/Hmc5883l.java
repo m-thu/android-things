@@ -272,9 +272,9 @@ public class Hmc5883l implements AutoCloseable {
         byte[] buffer = new byte[3*2];
         mI2cDevice.readRegBuffer(REG_X_MSB, buffer, buffer.length);
 
-        int x = (buffer[0] << 8) | buffer[1];
-        int z = (buffer[2] << 8) | buffer[3];
-        int y = (buffer[4] << 8) | buffer[5];
+        int x = (buffer[0] << 8) | (buffer[1] & 0xff);
+        int z = (buffer[2] << 8) | (buffer[3] & 0xff);
+        int y = (buffer[4] << 8) | (buffer[5] & 0xff);
 
         if (x == -4096 || y == -4096 || z == -4096)
             throw new RangeOverflowException();
