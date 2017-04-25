@@ -62,7 +62,6 @@ public class Max6675 implements AutoCloseable {
             throw new IOException("No thermocouple connected!");
 
         // Get temperature (12 bit, 0.25 K accuracy, always >= 0°C)
-        Log.d(TAG, Integer.toHexString(tmp));
         tmp = (tmp >>> 3) & 0xfff;
         return 0.25f * tmp;
     }
