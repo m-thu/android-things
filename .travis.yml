@@ -24,3 +24,5 @@ script:
    - bash lm75-native/gradlew build
    - bash hc05/gradlew build
    - bash max6675/gradlew build
+   - bash gpio_toggle_speed/toggle_java/gradlew build
+   - bash gpio_toggle_speed/toggle_native/gradlew build

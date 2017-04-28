@@ -4,3 +4,6 @@
 [submodule "lm75-native/libandroidthings"]
 	path = lm75-native/libandroidthings
 	url = https://github.com/androidthings/native-libandroidthings
+[submodule "gpio_toggle_speed/toggle_native/libandroidthings"]
+	path = gpio_toggle_speed/toggle_native/libandroidthings
+	url = https://github.com/androidthings/native-libandroidthings
