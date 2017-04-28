@@ -5,6 +5,6 @@ GPIO Toggle Speed (Raspberry Pi 3)
 
 ![](java.png)
 
-[Native:](toggle_native/):
+[Native](toggle_native/):
 
 ![](native.png)
